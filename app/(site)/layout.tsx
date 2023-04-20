@@ -23,9 +23,7 @@ export default async function RootLayout({
             {pages.map((page) => (
               <Link key={page._id} href={`/${page.slug}`} className="hover:underline">{page.title}</Link>
             ))}
-            <p>This is a test comment 1.</p>
           </div>
-          <p>This is a test comment 2.</p>
 
         </header>
         <main className="py-20">{children}</main>
