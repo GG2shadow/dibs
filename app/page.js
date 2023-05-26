@@ -7,6 +7,8 @@ import ListingCard from "@/components/ListingCard";
 
 import { supabase } from "@/utils/supabaseClient";
 
+export const revalidate = 60;
+
 export default async function Home() {
   let { data: listings, error } = await supabase
     .from("listings")

@@ -2,6 +2,8 @@ import Footer from "@/components/FooterSection";
 import NavigationBar from "@/components/NavSection";
 import { supabase } from "@/utils/supabaseClient";
 
+export const revalidate = 60;
+
 export default async function Page({ params }) {
   const slug = params.slug;
 
@@ -13,7 +15,7 @@ export default async function Page({ params }) {
   if (error) {
     throw error.message;
   }
-  
+
   const listing = listings[0];
 
   return (
@@ -156,9 +158,7 @@ export default async function Page({ params }) {
                 </span>
               </div>
               <div class="flex mt-5 px-4">
-                <span class="text-md font-normal">
-                  {listing.long_desc}
-                </span>
+                <span class="text-md font-normal">{listing.long_desc}</span>
               </div>
             </div>
 
