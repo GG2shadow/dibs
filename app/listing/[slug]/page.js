@@ -1,7 +1,21 @@
 import Footer from "@/components/FooterSection";
 import NavigationBar from "@/components/NavSection";
+import { supabase } from "@/utils/supabaseClient";
 
-export default function Page() {
+export default async function Page({ params }) {
+  const slug = params.slug;
+
+  let { data: listings, error } = await supabase
+    .from("listings")
+    .select("title,long_desc,image_urls,organisations(name)")
+    .eq("listing_id", slug);
+
+  if (error) {
+    throw error.message;
+  }
+  
+  const listing = listings[0];
+
   return (
     <div className="w-screen max-w-screen h-screen px-16 py-6 bg-white">
       <NavigationBar />
@@ -23,7 +37,7 @@ export default function Page() {
                     data-carousel-item
                   >
                     <img
-                      src="https://uplive-co.vercel.app/assets/img/course-details.jpg"
+                      src="https://umarobsoldvzbogopefy.supabase.co/storage/v1/object/public/listing-img/english101-1.jpg"
                       class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                       alt=""
                     />
@@ -34,40 +48,7 @@ export default function Page() {
                     data-carousel-item="active"
                   >
                     <img
-                      src="https://uplive-co.vercel.app/assets/img/course-details.jpg"
-                      class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                      alt=""
-                    />
-                  </div>
-                  {/* <!-- Item 3 --> */}
-                  <div
-                    class="hidden duration-700 ease-in-out"
-                    data-carousel-item
-                  >
-                    <img
-                      src="https://uplive-co.vercel.app/assets/img/course-details.jpg"
-                      class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                      alt=""
-                    />
-                  </div>
-                  {/* <!-- Item 4 --> */}
-                  <div
-                    class="hidden duration-700 ease-in-out"
-                    data-carousel-item
-                  >
-                    <img
-                      src="https://uplive-co.vercel.app/assets/img/course-details.jpg"
-                      class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                      alt=""
-                    />
-                  </div>
-                  {/* <!-- Item 5 --> */}
-                  <div
-                    class="hidden duration-700 ease-in-out"
-                    data-carousel-item
-                  >
-                    <img
-                      src="https://uplive-co.vercel.app/assets/img/course-details.jpg"
+                      src="https://umarobsoldvzbogopefy.supabase.co/storage/v1/object/public/listing-img/english101-2.jpg"
                       class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                       alt=""
                     />
@@ -129,14 +110,14 @@ export default function Page() {
               <div class="w-full grid grid-rows-3 gap-y-3">
                 <div class="w-full bg-black">
                   <img
-                    src="https://uplive-co.vercel.app/assets/img/course-details.jpg"
+                    src="https://umarobsoldvzbogopefy.supabase.co/storage/v1/object/public/listing-img/english101-1.jpg"
                     alt=""
                     class="h-full w-auto"
                   />
                 </div>
                 <div class="w-full bg-black">
                   <img
-                    src="https://uplive-co.vercel.app/assets/img/course-details.jpg"
+                    src="https://umarobsoldvzbogopefy.supabase.co/storage/v1/object/public/listing-img/english101-2.jpg"
                     alt=""
                     class="h-full w-auto"
                   />
@@ -164,52 +145,19 @@ export default function Page() {
           {/* Content */}
           <div class="grid grid-cols-4 gap-6 mt-10">
             <div class="w-full col-span-3">
+              <div class="py-3">
+                <span class="text-left font-bold text-2xl px-4">
+                  {listing.title}
+                </span>
+              </div>
               <div class="border-b-2 border-black py-3">
                 <span class="text-left font-bold text-xl px-4">
                   Product Description
                 </span>
               </div>
               <div class="flex mt-5 px-4">
-                <span class="text-md font-normal text-justify">
-                  A database administrator, or DBA, is responsible for managing
-                  and maintaining an organization's database systems. The
-                  primary responsibilities of a database administrator include:{" "}
-                  <br />
-                  1. Installing and configuring database software: The DBA is
-                  responsible for installing and configuring the database
-                  software on the organization's servers. <br />
-                  2. Monitoring database performance: The DBA is responsible for
-                  monitoring the performance of the database system and
-                  identifying and resolving any issues that may arise. <br />
-                  3. Backing up and restoring data: The DBA is responsible for
-                  creating and maintaining regular backups of the database to
-                  prevent data loss in the event of a system failure. They must
-                  also be able to restore the database from these backups if
-                  necessary. <br />
-                  4. Ensuring data security: The DBA is responsible for ensuring
-                  the security of the organization's data, which includes
-                  setting user permissions, encrypting sensitive data, and
-                  implementing security protocols to protect against cyber
-                  threats. <br />
-                  5. Developing and implementing database policies and
-                  procedures: The DBA is responsible for developing and
-                  implementing database policies and procedures to ensure that
-                  the database system is functioning efficiently and
-                  effectively. <br />
-                  6. Collaborating with other IT professionals: The DBA works
-                  closely with other IT professionals, such as network
-                  administrators and software developers, to ensure that the
-                  organization's database system is integrated with other
-                  systems and is functioning optimally. <br />
-                  7. Troubleshooting and problem-solving: The DBA must be able
-                  to troubleshoot and solve any issues that arise with the
-                  database system, which requires knowledge of database
-                  architecture, SQL programming, and database management tools.{" "}
-                  <br />
-                  <br />
-                  Overall, a database administrator plays a critical role in
-                  ensuring the stability, security, and performance of an
-                  organization's database systems.
+                <span class="text-md font-normal">
+                  {listing.long_desc}
                 </span>
               </div>
             </div>
@@ -217,15 +165,7 @@ export default function Page() {
             <div class="w-full h-fit mt-5 grid gap-4">
               <div class="flex items-center justify-between w-full bg-gray-200 px-4 py-2 rounded-xl text-md">
                 <span class="font-normal">Organisation</span>
-                <span class="font-bold">IDK</span>
-              </div>
-              <div class="flex items-center justify-between w-full bg-gray-200 px-4 py-2 rounded-xl text-md">
-                <span class="font-normal">Organisation</span>
-                <span class="font-bold">IDK</span>
-              </div>
-              <div class="flex items-center justify-between w-full bg-gray-200 px-4 py-2 rounded-xl text-md">
-                <span class="font-normal">Organisation</span>
-                <span class="font-bold">IDK</span>
+                <span class="font-bold">{listing.organisations.name}</span>
               </div>
             </div>
           </div>
